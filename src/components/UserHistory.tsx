@@ -1,6 +1,6 @@
+// src/components/UserHistory.tsx
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-
 import { toast } from "sonner";
 import {
   Card,
@@ -14,18 +14,6 @@ import { ScrollArea } from "./ui/scroll-area";
 import { Avatar } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 
-// Define interface for the contract
-interface DonationContract {
-  getAllUserDonations: (address: string) => Promise<
-    [
-      bigint[], // campaignIds
-      bigint[], // amounts
-      bigint[], // timestamps
-      string[] // campaignNames
-    ]
-  >;
-}
-
 // Define interface for formatted donation
 interface FormattedDonation {
   campaignId: number;
@@ -34,9 +22,9 @@ interface FormattedDonation {
   timestamp: number;
 }
 
-// Define props interface
+// Define props interface - use ethers.Contract as the type
 interface UserDonationHistoryProps {
-  contract: DonationContract | null;
+  contract: ethers.Contract | null;
   account: string;
 }
 

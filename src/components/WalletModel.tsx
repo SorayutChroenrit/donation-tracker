@@ -124,6 +124,13 @@ export function WalletConnection({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isConnecting, setIsConnecting] = useState<string | null>(null);
 
+  // Format ETH balance for display
+  const formatBalance = (balance: string) => {
+    const numBalance = parseFloat(balance);
+    if (isNaN(numBalance)) return "0.0000";
+    return numBalance.toFixed(4);
+  };
+
   // Format address for display
   const formatAddress = (address: string) => {
     if (!address) return "";
@@ -586,11 +593,26 @@ export function WalletConnection({
           {/* Account Selection Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex items-center gap-2">
-                <span className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                className="flex items-center gap-1 sm:gap-2"
+              >
+                <span className="hidden sm:flex items-center gap-2">
                   {formatAddress(walletState.selectedAccount?.address || "")}
                   <Badge variant="secondary" className="ml-2">
-                    {`${walletState.selectedAccount?.balance} ETH`}
+                    {formatBalance(walletState.selectedAccount?.balance || "0")}{" "}
+                    ETH
+                  </Badge>
+                </span>
+                <span className="flex sm:hidden items-center gap-1">
+                  {formatAddress(
+                    walletState.selectedAccount?.address || ""
+                  ).substring(0, 6)}
+                  ...
+                  <Badge variant="secondary" className="ml-1">
+                    {formatBalance(
+                      walletState.selectedAccount?.balance || "0"
+                    ).substring(0, 4)}
                   </Badge>
                 </span>
                 <ChevronsUpDown className="h-4 w-4" />
@@ -616,7 +638,7 @@ export function WalletConnection({
                     </span>
 
                     <span className="text-xs text-gray-500">
-                      {`${account.balance} ETH`}
+                      {formatBalance(account.balance)} ETH
                     </span>
                   </div>
                   {walletState.selectedAccount?.address === account.address && (
