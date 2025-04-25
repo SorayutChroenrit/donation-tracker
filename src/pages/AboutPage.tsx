@@ -16,7 +16,6 @@ import {
   Laptop,
   User,
   Github,
-  Linkedin,
   Mail,
 } from "lucide-react";
 
