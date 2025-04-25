@@ -136,7 +136,7 @@ Contract Address (Holesky): `0x40374915149b2A7806090D23CE9375ac98db481d`
 
 ## ใบอนุญาต
 
-โปรเจคนี้อยู่ภายใต้ MIT License - ดูรายละเอียดในไฟล์ [LICENSE](LICENSE)
+โปรเจคนี้อยู่ภายใต้ MIT License
 
 ## ผู้พัฒนา
 
