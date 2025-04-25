@@ -23,7 +23,7 @@ import {
 } from "./components/ui/dialog";
 import { Input } from "./components/ui/input";
 import { Alert, AlertDescription } from "./components/ui/alert";
-import { Avatar } from "./components/ui/avatar";
+import { Avatar, AvatarFallback } from "./components/ui/avatar";
 import { Textarea } from "./components/ui/textarea";
 import { ScrollArea } from "./components/ui/scroll-area";
 import { Separator } from "./components/ui/separator";
@@ -938,10 +938,6 @@ function App() {
       setSigner(walletState.signer);
       setContract(contractInstance);
       setAccount(walletState.selectedAccount.address);
-
-      // Set network info
-      const network = await walletState.provider.getNetwork();
-      setNetworkInfo(`Network: ${network.name} (Chain ID: ${network.chainId})`);
 
       // Load campaigns
       await loadCampaigns(contractInstance);
@@ -2274,11 +2270,11 @@ function App() {
                               <div className="flex justify-between items-start mb-2">
                                 <div className="flex items-center gap-2">
                                   <Avatar className="h-8 w-8 bg-blue-100">
-                                    <div className="text-xs text-blue-600 font-medium">
+                                    <AvatarFallback className="text-xs text-blue-600 font-medium">
                                       {donation.donor
                                         .substring(2, 4)
                                         .toUpperCase()}
-                                    </div>
+                                    </AvatarFallback>
                                   </Avatar>
                                   <div>
                                     <p className="text-sm font-medium">
