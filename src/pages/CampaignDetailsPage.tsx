@@ -100,6 +100,8 @@ const CampaignDetailPage = () => {
     try {
       await closeCampaign(campaign.id);
       toast.success("Campaign closed successfully!");
+      // Refresh campaign data
+      window.location.reload();
     } catch (error) {
       toast.error("Failed to close campaign");
     }
