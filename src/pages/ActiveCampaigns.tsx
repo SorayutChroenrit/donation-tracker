@@ -27,9 +27,9 @@ import { useApp } from "../context/AppContext";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
-const ActiveCampaignsPage = () => {
+const ActiveCausesPage = () => {
   const { campaigns, loading, connected, makeDonation } = useApp();
-  const [selectedCampaign, setSelectedCampaign] = useState<number | null>(null);
+  const [selectedCause, setSelectedCause] = useState<number | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [donationAmount, setDonationAmount] = useState("");
   const [donationMessage, setDonationMessage] = useState("");
@@ -40,16 +40,16 @@ const ActiveCampaignsPage = () => {
     threshold: 0.1,
   });
 
-  const [campaignsRef, campaignsInView] = useInView({
+  const [causesRef, causesInView] = useInView({
     triggerOnce: true,
     threshold: 0.05,
   });
 
   const handleDonate = async () => {
-    if (selectedCampaign === null) return;
+    if (selectedCause === null) return;
 
     try {
-      await makeDonation(selectedCampaign, donationAmount, donationMessage);
+      await makeDonation(selectedCause, donationAmount, donationMessage);
       setIsDialogOpen(false);
       setDonationAmount("");
       setDonationMessage("");
@@ -109,7 +109,7 @@ const ActiveCampaignsPage = () => {
               ease: "easeInOut",
             }}
           >
-            Loading campaigns...
+            Loading causes...
           </motion.span>
         </p>
       </motion.div>
@@ -125,19 +125,19 @@ const ActiveCampaignsPage = () => {
         transition={{ duration: 0.7 }}
         className="text-3xl font-bold mb-8"
       >
-        Active Campaigns
+        Active Causes
       </motion.h1>
 
       <motion.div
-        ref={campaignsRef}
+        ref={causesRef}
         variants={containerVariants}
         initial="hidden"
-        animate={campaignsInView ? "visible" : "hidden"}
+        animate={causesInView ? "visible" : "hidden"}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
-        {campaigns.map((campaign, index) => (
+        {campaigns.map((cause, index) => (
           <motion.div
-            key={campaign.id}
+            key={cause.id}
             custom={index}
             variants={cardVariants}
             whileHover={{ y: -5, transition: { duration: 0.2 } }}
@@ -145,8 +145,8 @@ const ActiveCampaignsPage = () => {
             <Card className="overflow-hidden h-full border border-gray-200 hover:shadow-lg transition-all duration-300">
               <CardHeader className="pb-2">
                 <div className="flex justify-between items-start mb-1">
-                  <CardTitle className="text-xl">{campaign.name}</CardTitle>
-                  {campaign.isActive ? (
+                  <CardTitle className="text-xl">{cause.name}</CardTitle>
+                  {cause.isActive ? (
                     <motion.div
                       initial={{ scale: 0.8 }}
                       animate={{ scale: 1 }}
@@ -172,19 +172,17 @@ const ActiveCampaignsPage = () => {
                   )}
                 </div>
                 <CardDescription className="text-sm truncate">
-                  By {formatAddress(campaign.campaignOwner)}
+                  By {formatAddress(cause.campaignOwner)}
                 </CardDescription>
               </CardHeader>
 
               <CardContent>
-                <p className="mb-4 text-sm line-clamp-2">
-                  {campaign.description}
-                </p>
+                <p className="mb-4 text-sm line-clamp-2">{cause.description}</p>
 
                 <div className="mb-3">
                   <div className="flex justify-between text-sm mb-1">
                     <span>Progress</span>
-                    <span>{campaign.progress.toFixed(1)}%</span>
+                    <span>{cause.progress.toFixed(1)}%</span>
                   </div>
                   <motion.div
                     initial={{ width: 0 }}
@@ -195,7 +193,7 @@ const ActiveCampaignsPage = () => {
                       ease: "easeOut",
                     }}
                   >
-                    <Progress value={campaign.progress} className="h-2" />
+                    <Progress value={cause.progress} className="h-2" />
                   </motion.div>
                 </div>
 
@@ -206,16 +204,14 @@ const ActiveCampaignsPage = () => {
                   className="flex justify-between items-center text-sm"
                 >
                   <span className="font-medium">
-                    {campaign.amountRaised} ETH raised
+                    {cause.amountRaised} ETH donated
                   </span>
-                  <span className="text-gray-500">
-                    Goal: {campaign.goal} ETH
-                  </span>
+                  <span className="text-gray-500">Goal: {cause.goal} ETH</span>
                 </motion.div>
               </CardContent>
 
               <CardFooter className="flex justify-between pt-2">
-                <Link to={`/campaign/${campaign.id}`}>
+                <Link to={`/cause/${cause.id}`}>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -224,16 +220,16 @@ const ActiveCampaignsPage = () => {
                   </motion.div>
                 </Link>
 
-                {campaign.isActive && (
+                {cause.isActive && (
                   <Dialog
-                    open={isDialogOpen && selectedCampaign === campaign.id}
+                    open={isDialogOpen && selectedCause === cause.id}
                     onOpenChange={(open) => {
                       if (open && !connected) {
                         toast.error("Please connect your wallet to donate");
                         return;
                       }
                       setIsDialogOpen(open);
-                      if (open) setSelectedCampaign(campaign.id);
+                      if (open) setSelectedCause(cause.id);
                     }}
                   >
                     <DialogTrigger asChild>
@@ -251,10 +247,10 @@ const ActiveCampaignsPage = () => {
                         transition={{ duration: 0.3 }}
                       >
                         <DialogHeader>
-                          <DialogTitle>Donate to {campaign.name}</DialogTitle>
+                          <DialogTitle>Donate to {cause.name}</DialogTitle>
                           <DialogDescription>
-                            Support this campaign with ETH. Your donation will
-                            be recorded on the blockchain.
+                            Support this cause with ETH. Your donation will be
+                            recorded on the blockchain.
                           </DialogDescription>
                         </DialogHeader>
 
@@ -331,7 +327,7 @@ const ActiveCampaignsPage = () => {
             className="col-span-3 text-center py-12"
           >
             <p className="text-gray-600">
-              No campaigns found.{" "}
+              No causes found.{" "}
               {connected ? (
                 <motion.span
                   whileHover={{ color: "#f97316", x: 3 }}
@@ -345,7 +341,7 @@ const ActiveCampaignsPage = () => {
                   </Link>
                 </motion.span>
               ) : (
-                "Connect your wallet to create a campaign."
+                "Connect your wallet to create a cause."
               )}
             </p>
           </motion.div>
@@ -355,4 +351,4 @@ const ActiveCampaignsPage = () => {
   );
 };
 
-export default ActiveCampaignsPage;
+export default ActiveCausesPage;

@@ -79,8 +79,8 @@ const AboutPage = () => {
     },
     {
       icon: <Users className="h-6 w-6 text-orange-600 mt-1" />,
-      title: "Campaign Management",
-      description: "Create, manage, and track campaigns easily",
+      title: "Cause Management",
+      description: "Create, manage, and track donation causes easily",
     },
   ];
 
@@ -155,10 +155,10 @@ const AboutPage = () => {
             Our Mission
           </motion.h2>
           <motion.p variants={fadeIn} className="text-gray-600 mb-6">
-            Donatrace is a blockchain-based fundraising platform that
-            revolutionizes how campaigns are created, managed, and tracked. We
+            Donatrace is a blockchain-based donation platform that
+            revolutionizes how causes are created, managed, and tracked. We
             leverage the power of blockchain technology to ensure complete
-            transparency and trust in the fundraising process.
+            transparency and trust in the donation process.
           </motion.p>
         </motion.section>
 
@@ -355,9 +355,8 @@ const AboutPage = () => {
                 I'm passionate about creating decentralized applications that
                 solve real-world problems. With a background in web development
                 and a keen interest in blockchain technology, I built Donatrace
-                to bring transparency and trust to the fundraising space. My
-                goal is to empower both donors and campaign creators through
-                technology.
+                to bring transparency and trust to the donation space. My goal
+                is to empower both donors and cause creators through technology.
               </p>
 
               <motion.div
@@ -411,7 +410,7 @@ const AboutPage = () => {
             transition={{ duration: 0.6, delay: 1.6 }}
             className="text-gray-600 mb-6"
           >
-            Join the transparent fundraising revolution today!
+            Join the transparent donation revolution today!
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -425,7 +424,7 @@ const AboutPage = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Button variant="hero" size="lg" className="transition-all">
-                  Browse Campaigns
+                  Browse Causes
                 </Button>
               </motion.div>
             </Link>
@@ -439,7 +438,7 @@ const AboutPage = () => {
                   size="lg"
                   className="transition-all"
                 >
-                  Create Campaign
+                  Create Cause
                 </Button>
               </motion.div>
             </Link>

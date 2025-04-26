@@ -34,7 +34,7 @@ const MyDonationsPage = () => {
           transition={{ delay: 0.2 }}
           className="text-gray-600"
         >
-          Please connect your wallet to view your donations.
+          Please connect your wallet to view your donation history.
         </motion.p>
       </motion.div>
     );

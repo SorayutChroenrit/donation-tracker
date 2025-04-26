@@ -188,9 +188,9 @@ const UserDonationHistory: React.FC<UserDonationHistoryProps> = ({
                               stiffness: 200,
                             }}
                           >
-                            <Avatar className="h-10 w-10 bg-blue-100">
-                              <div className="text-xs text-blue-600 font-medium">
-                                {donation.campaignId}
+                            <Avatar className="h-10 w-10 bg-blue-100 flex items-center justify-center">
+                              <div className="text-lg text-blue-600 font-medium">
+                                U
                               </div>
                             </Avatar>
                           </motion.div>
