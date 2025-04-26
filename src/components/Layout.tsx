@@ -1,4 +1,3 @@
-// src/components/Layout.tsx
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";

@@ -24,6 +24,8 @@ import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { toast } from "sonner";
 import { useApp } from "../context/AppContext";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const ActiveCampaignsPage = () => {
   const { campaigns, loading, connected, makeDonation } = useApp();
@@ -31,6 +33,17 @@ const ActiveCampaignsPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [donationAmount, setDonationAmount] = useState("");
   const [donationMessage, setDonationMessage] = useState("");
+
+  // Animation setup
+  const [headerRef, headerInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const [campaignsRef, campaignsInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.05,
+  });
 
   const handleDonate = async () => {
     if (selectedCampaign === null) return;
@@ -52,154 +65,292 @@ const ActiveCampaignsPage = () => {
     )}`;
   };
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.05,
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    }),
+  };
+
   if (loading && campaigns.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-600">Loading campaigns...</p>
-      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="text-center py-12"
+      >
+        <p className="text-gray-600">
+          <motion.span
+            animate={{
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            Loading campaigns...
+          </motion.span>
+        </p>
+      </motion.div>
     );
   }
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8">Active Campaigns</h1>
+      <motion.h1
+        ref={headerRef}
+        initial={{ opacity: 0, y: -20 }}
+        animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+        transition={{ duration: 0.7 }}
+        className="text-3xl font-bold mb-8"
+      >
+        Active Campaigns
+      </motion.h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {campaigns.map((campaign) => (
-          <Card key={campaign.id} className="overflow-hidden">
-            <CardHeader className="pb-2">
-              <div className="flex justify-between items-start mb-1">
-                <CardTitle className="text-xl">{campaign.name}</CardTitle>
-                {campaign.isActive ? (
-                  <Badge className="bg-green-100 text-green-800">Active</Badge>
-                ) : (
-                  <Badge
-                    variant="secondary"
-                    className="bg-gray-100 text-gray-800"
-                  >
-                    Closed
-                  </Badge>
-                )}
-              </div>
-              <CardDescription className="text-sm truncate">
-                By {formatAddress(campaign.campaignOwner)}
-              </CardDescription>
-            </CardHeader>
-
-            <CardContent>
-              <p className="mb-4 text-sm line-clamp-2">
-                {campaign.description}
-              </p>
-
-              <div className="mb-3">
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Progress</span>
-                  <span>{campaign.progress.toFixed(1)}%</span>
+      <motion.div
+        ref={campaignsRef}
+        variants={containerVariants}
+        initial="hidden"
+        animate={campaignsInView ? "visible" : "hidden"}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
+        {campaigns.map((campaign, index) => (
+          <motion.div
+            key={campaign.id}
+            custom={index}
+            variants={cardVariants}
+            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+          >
+            <Card className="overflow-hidden h-full border border-gray-200 hover:shadow-lg transition-all duration-300">
+              <CardHeader className="pb-2">
+                <div className="flex justify-between items-start mb-1">
+                  <CardTitle className="text-xl">{campaign.name}</CardTitle>
+                  {campaign.isActive ? (
+                    <motion.div
+                      initial={{ scale: 0.8 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.3 + index * 0.05, duration: 0.3 }}
+                    >
+                      <Badge className="bg-green-100 text-green-800">
+                        Active
+                      </Badge>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      initial={{ scale: 0.8 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.3 + index * 0.05, duration: 0.3 }}
+                    >
+                      <Badge
+                        variant="secondary"
+                        className="bg-gray-100 text-gray-800"
+                      >
+                        Closed
+                      </Badge>
+                    </motion.div>
+                  )}
                 </div>
-                <Progress value={campaign.progress} className="h-2" />
-              </div>
+                <CardDescription className="text-sm truncate">
+                  By {formatAddress(campaign.campaignOwner)}
+                </CardDescription>
+              </CardHeader>
 
-              <div className="flex justify-between items-center text-sm">
-                <span className="font-medium">
-                  {campaign.amountRaised} ETH raised
-                </span>
-                <span className="text-gray-500">Goal: {campaign.goal} ETH</span>
-              </div>
-            </CardContent>
+              <CardContent>
+                <p className="mb-4 text-sm line-clamp-2">
+                  {campaign.description}
+                </p>
 
-            <CardFooter className="flex justify-between pt-2">
-              <Link to={`/campaign/${campaign.id}`}>
-                <Button variant="outline">View Details</Button>
-              </Link>
+                <div className="mb-3">
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>Progress</span>
+                    <span>{campaign.progress.toFixed(1)}%</span>
+                  </div>
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{
+                      delay: 0.5 + index * 0.05,
+                      duration: 0.7,
+                      ease: "easeOut",
+                    }}
+                  >
+                    <Progress value={campaign.progress} className="h-2" />
+                  </motion.div>
+                </div>
 
-              {campaign.isActive && (
-                <Dialog
-                  open={isDialogOpen && selectedCampaign === campaign.id}
-                  onOpenChange={(open) => {
-                    if (open && !connected) {
-                      toast.error("Please connect your wallet to donate");
-                      return;
-                    }
-                    setIsDialogOpen(open);
-                    if (open) setSelectedCampaign(campaign.id);
-                  }}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7 + index * 0.05, duration: 0.5 }}
+                  className="flex justify-between items-center text-sm"
                 >
-                  <DialogTrigger asChild>
-                    <Button variant="hero">Donate</Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Donate to {campaign.name}</DialogTitle>
-                      <DialogDescription>
-                        Support this campaign with ETH. Your donation will be
-                        recorded on the blockchain.
-                      </DialogDescription>
-                    </DialogHeader>
+                  <span className="font-medium">
+                    {campaign.amountRaised} ETH raised
+                  </span>
+                  <span className="text-gray-500">
+                    Goal: {campaign.goal} ETH
+                  </span>
+                </motion.div>
+              </CardContent>
 
-                    <div className="space-y-4 py-4">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">
-                          Amount (ETH)
-                        </label>
-                        <Input
-                          type="number"
-                          placeholder="0.01"
-                          step="0.01"
-                          min="0.001"
-                          value={donationAmount}
-                          onChange={(e) => setDonationAmount(e.target.value)}
-                        />
-                      </div>
+              <CardFooter className="flex justify-between pt-2">
+                <Link to={`/campaign/${campaign.id}`}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Button variant="outline">View Details</Button>
+                  </motion.div>
+                </Link>
 
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">
-                          Message (optional)
-                        </label>
-                        <Textarea
-                          placeholder="Add a message with your donation"
-                          value={donationMessage}
-                          onChange={(e) => setDonationMessage(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    <DialogFooter>
-                      <Button
-                        variant="outline"
-                        onClick={() => setIsDialogOpen(false)}
+                {campaign.isActive && (
+                  <Dialog
+                    open={isDialogOpen && selectedCampaign === campaign.id}
+                    onOpenChange={(open) => {
+                      if (open && !connected) {
+                        toast.error("Please connect your wallet to donate");
+                        return;
+                      }
+                      setIsDialogOpen(open);
+                      if (open) setSelectedCampaign(campaign.id);
+                    }}
+                  >
+                    <DialogTrigger asChild>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        Cancel
-                      </Button>
-                      <Button
-                        variant="hero"
-                        onClick={handleDonate}
-                        disabled={!donationAmount || loading}
+                        <Button variant="hero">Donate</Button>
+                      </motion.div>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
                       >
-                        {loading ? "Processing..." : "Donate Now"}
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              )}
-            </CardFooter>
-          </Card>
+                        <DialogHeader>
+                          <DialogTitle>Donate to {campaign.name}</DialogTitle>
+                          <DialogDescription>
+                            Support this campaign with ETH. Your donation will
+                            be recorded on the blockchain.
+                          </DialogDescription>
+                        </DialogHeader>
+
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.2, duration: 0.3 }}
+                          className="space-y-4 py-4"
+                        >
+                          <div className="space-y-2">
+                            <label className="text-sm font-medium">
+                              Amount (ETH)
+                            </label>
+                            <Input
+                              type="number"
+                              placeholder="0.01"
+                              step="0.01"
+                              min="0.001"
+                              value={donationAmount}
+                              onChange={(e) =>
+                                setDonationAmount(e.target.value)
+                              }
+                            />
+                          </div>
+
+                          <div className="space-y-2">
+                            <label className="text-sm font-medium">
+                              Message (optional)
+                            </label>
+                            <Textarea
+                              placeholder="Add a message with your donation"
+                              value={donationMessage}
+                              onChange={(e) =>
+                                setDonationMessage(e.target.value)
+                              }
+                            />
+                          </div>
+                        </motion.div>
+
+                        <DialogFooter>
+                          <Button
+                            variant="outline"
+                            onClick={() => setIsDialogOpen(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <Button
+                              variant="hero"
+                              onClick={handleDonate}
+                              disabled={!donationAmount || loading}
+                            >
+                              {loading ? "Processing..." : "Donate Now"}
+                            </Button>
+                          </motion.div>
+                        </DialogFooter>
+                      </motion.div>
+                    </DialogContent>
+                  </Dialog>
+                )}
+              </CardFooter>
+            </Card>
+          </motion.div>
         ))}
 
         {campaigns.length === 0 && (
-          <div className="col-span-3 text-center py-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="col-span-3 text-center py-12"
+          >
             <p className="text-gray-600">
               No campaigns found.{" "}
               {connected ? (
-                <Link to="/create" className="text-orange-600 hover:underline">
-                  Create one to get started!
-                </Link>
+                <motion.span
+                  whileHover={{ color: "#f97316", x: 3 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link
+                    to="/create"
+                    className="text-orange-600 hover:underline"
+                  >
+                    Create one to get started!
+                  </Link>
+                </motion.span>
               ) : (
                 "Connect your wallet to create a campaign."
               )}
             </p>
-          </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };

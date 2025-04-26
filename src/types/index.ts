@@ -1,4 +1,3 @@
-// src/types/index.ts
 import { ethers } from "ethers";
 
 export interface Campaign {

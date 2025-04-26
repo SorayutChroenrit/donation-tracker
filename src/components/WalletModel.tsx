@@ -1,4 +1,3 @@
-// WalletConnection.tsx
 import { useState, useEffect, useCallback } from "react";
 import { ethers } from "ethers";
 import { toast } from "sonner";

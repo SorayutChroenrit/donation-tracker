@@ -1,4 +1,3 @@
-// src/pages/AboutPage.tsx
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -18,138 +17,336 @@ import {
   Github,
   Mail,
 } from "lucide-react";
+import { motion } from "framer-motion";
+import { ReactElement, useEffect, useState } from "react";
+
+// Define interfaces for data objects
+interface BuildCard {
+  icon: ReactElement;
+  title: string;
+  description: string;
+}
+
+interface Feature {
+  icon: ReactElement;
+  title: string;
+  description: string;
+}
 
 const AboutPage = () => {
-  return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">About Donatrace</h1>
+  // State to control animations
+  const [animate, setAnimate] = useState(false);
 
-      <div className="space-y-8">
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
-          <p className="text-gray-600 mb-6">
+  // Start animations after component mounts
+  useEffect(() => {
+    setAnimate(true);
+  }, []);
+
+  // Card data
+  const buildCards: BuildCard[] = [
+    {
+      icon: <Code className="h-5 w-5 text-orange-600" />,
+      title: "Smart Contracts",
+      description:
+        "Built with Solidity smart contracts on the Ethereum blockchain, ensuring immutable and transparent transactions.",
+    },
+    {
+      icon: <Laptop className="h-5 w-5 text-orange-600" />,
+      title: "Modern Frontend",
+      description:
+        "Developed using React, TypeScript, and Tailwind CSS for a responsive and user-friendly interface.",
+    },
+    {
+      icon: <Lock className="h-5 w-5 text-orange-600" />,
+      title: "Secure Wallet Integration",
+      description:
+        "Integrated with MetaMask and other wallet providers using ethers.js for secure transactions.",
+    },
+    {
+      icon: <Globe className="h-5 w-5 text-orange-600" />,
+      title: "Holesky Testnet",
+      description:
+        "Deployed on the Holesky testnet for development and testing with real blockchain interactions.",
+    },
+  ];
+
+  // Features data
+  const features: Feature[] = [
+    {
+      icon: <Heart className="h-6 w-6 text-orange-600 mt-1" />,
+      title: "Transparent Donations",
+      description: "Every donation is recorded on the blockchain",
+    },
+    {
+      icon: <Users className="h-6 w-6 text-orange-600 mt-1" />,
+      title: "Campaign Management",
+      description: "Create, manage, and track campaigns easily",
+    },
+  ];
+
+  // Tech stack data
+  const techStack: string[] = [
+    "React & TypeScript",
+    "Tailwind CSS",
+    "Ethers.js",
+    "Solidity",
+    "React Router",
+    "Shadcn/ui",
+  ];
+
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.7 } },
+  };
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
+  };
+
+  const fadeInLeft = {
+    hidden: { opacity: 0, x: -30 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.7 } },
+  };
+
+  const scaleIn = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.7, type: "spring", stiffness: 100 },
+    },
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto py-8">
+      <motion.h1
+        initial="hidden"
+        animate={animate ? "visible" : "hidden"}
+        variants={fadeIn}
+        className="text-3xl font-bold mb-8"
+      >
+        About Donatrace
+      </motion.h1>
+
+      <div className="space-y-12">
+        {/* Mission Section */}
+        <motion.section
+          initial="hidden"
+          animate={animate ? "visible" : "hidden"}
+          variants={fadeInUp}
+        >
+          <motion.h2
+            variants={fadeInLeft}
+            className="text-2xl font-semibold mb-4"
+          >
+            Our Mission
+          </motion.h2>
+          <motion.p variants={fadeIn} className="text-gray-600 mb-6">
             Donatrace is a blockchain-based fundraising platform that
             revolutionizes how campaigns are created, managed, and tracked. We
             leverage the power of blockchain technology to ensure complete
             transparency and trust in the fundraising process.
-          </p>
-        </section>
+          </motion.p>
+        </motion.section>
 
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">
+        {/* How We Built Section */}
+        <motion.section
+          initial="hidden"
+          animate={animate ? "visible" : "hidden"}
+          variants={fadeInUp}
+          transition={{ delay: 0.2 }}
+        >
+          <motion.h2
+            variants={fadeInLeft}
+            className="text-2xl font-semibold mb-6"
+          >
             How We Built Donatrace
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Code className="h-5 w-5 text-orange-600" />
-                  Smart Contracts
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">
-                  Built with Solidity smart contracts on the Ethereum
-                  blockchain, ensuring immutable and transparent transactions.
-                </p>
-              </CardContent>
-            </Card>
+          </motion.h2>
+          <motion.div
+            initial="hidden"
+            animate={animate ? "visible" : "hidden"}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            {buildCards.map((item, index) => (
+              <motion.div
+                key={item.title}
+                variants={fadeInUp}
+                custom={index}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              >
+                <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={animate ? { scale: 1 } : { scale: 0 }}
+                        transition={{
+                          delay: 0.5 + index * 0.1,
+                          type: "spring",
+                          stiffness: 200,
+                        }}
+                      >
+                        {item.icon}
+                      </motion.div>
+                      {item.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">{item.description}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.section>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Laptop className="h-5 w-5 text-orange-600" />
-                  Modern Frontend
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">
-                  Developed using React, TypeScript, and Tailwind CSS for a
-                  responsive and user-friendly interface.
-                </p>
-              </CardContent>
-            </Card>
+        {/* Features Section */}
+        <motion.section
+          initial="hidden"
+          animate={animate ? "visible" : "hidden"}
+          variants={fadeInUp}
+          transition={{ delay: 0.4 }}
+        >
+          <motion.h2
+            variants={fadeInLeft}
+            className="text-2xl font-semibold mb-6"
+          >
+            Key Features
+          </motion.h2>
+          <motion.div
+            initial="hidden"
+            animate={animate ? "visible" : "hidden"}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                variants={fadeInLeft}
+                custom={index}
+                whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                className="flex items-start gap-3"
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={animate ? { scale: 1 } : { scale: 0 }}
+                  transition={{
+                    delay: 0.8 + index * 0.2,
+                    type: "spring",
+                    stiffness: 200,
+                  }}
+                >
+                  {feature.icon}
+                </motion.div>
+                <div>
+                  <h3 className="font-semibold">{feature.title}</h3>
+                  <p className="text-gray-600">{feature.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.section>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Lock className="h-5 w-5 text-orange-600" />
-                  Secure Wallet Integration
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">
-                  Integrated with MetaMask and other wallet providers using
-                  ethers.js for secure transactions.
-                </p>
-              </CardContent>
-            </Card>
+        {/* Technology Stack Section */}
+        <motion.section
+          initial="hidden"
+          animate={animate ? "visible" : "hidden"}
+          variants={fadeInUp}
+          transition={{ delay: 0.6 }}
+          className="bg-orange-50 p-6 rounded-lg"
+        >
+          <motion.h2 variants={fadeIn} className="text-2xl font-semibold mb-4">
+            Technology Stack
+          </motion.h2>
+          <motion.ul
+            initial="hidden"
+            animate={animate ? "visible" : "hidden"}
+            variants={staggerContainer}
+            className="grid grid-cols-2 md:grid-cols-3 gap-4 text-gray-700"
+          >
+            {techStack.map((tech, index) => (
+              <motion.li
+                key={tech}
+                variants={scaleIn}
+                custom={index}
+                whileHover={{ x: 5, transition: { duration: 0.2 } }}
+              >
+                • {tech}
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.section>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Globe className="h-5 w-5 text-orange-600" />
-                  Holesky Testnet
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">
-                  Deployed on the Holesky testnet for development and testing
-                  with real blockchain interactions.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Key Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-start gap-3">
-              <Heart className="h-6 w-6 text-orange-600 mt-1" />
-              <div>
-                <h3 className="font-semibold">Transparent Donations</h3>
-                <p className="text-gray-600">
-                  Every donation is recorded on the blockchain
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Users className="h-6 w-6 text-orange-600 mt-1" />
-              <div>
-                <h3 className="font-semibold">Campaign Management</h3>
-                <p className="text-gray-600">
-                  Create, manage, and track campaigns easily
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-orange-50 p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold mb-4">Technology Stack</h2>
-          <ul className="grid grid-cols-2 md:grid-cols-3 gap-4 text-gray-700">
-            <li>• React & TypeScript</li>
-            <li>• Tailwind CSS</li>
-            <li>• Ethers.js</li>
-            <li>• Solidity</li>
-            <li>• React Router</li>
-            <li>• Shadcn/ui</li>
-          </ul>
-        </section>
-
-        <section className="bg-white p-6 rounded-lg border border-gray-200">
-          <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-            <User className="h-6 w-6 text-orange-600" />
+        {/* Creator Section */}
+        <motion.section
+          initial="hidden"
+          animate={animate ? "visible" : "hidden"}
+          variants={fadeInUp}
+          transition={{ delay: 0.8 }}
+          className="bg-white p-6 rounded-lg border border-gray-200"
+        >
+          <motion.h2
+            variants={fadeIn}
+            className="text-2xl font-semibold mb-6 flex items-center gap-2"
+          >
+            <motion.div
+              initial={{ scale: 0, rotate: -30 }}
+              animate={
+                animate ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -30 }
+              }
+              transition={{
+                delay: 1.0,
+                type: "spring",
+                stiffness: 200,
+              }}
+            >
+              <User className="h-6 w-6 text-orange-600" />
+            </motion.div>
             Meet the Creator
-          </h2>
+          </motion.h2>
 
           <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 flex items-center justify-center text-white text-4xl font-bold">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={animate ? { scale: 1 } : { scale: 0 }}
+              transition={{
+                delay: 1.1,
+                type: "spring",
+                stiffness: 100,
+              }}
+              whileHover={{
+                rotate: [0, -5, 5, 0],
+                transition: {
+                  duration: 0.5,
+                  repeat: Infinity,
+                  repeatType: "loop",
+                },
+              }}
+              className="w-32 h-32 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 flex items-center justify-center text-white text-4xl font-bold"
+            >
               SC
-            </div>
+            </motion.div>
 
-            <div className="flex-1 text-center md:text-left">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={animate ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+              transition={{ delay: 1.2, duration: 0.6 }}
+              className="flex-1 text-center md:text-left"
+            >
               <h3 className="text-xl font-bold mb-2">Sorayut Chroenrit</h3>
               <p className="text-gray-600 mb-4">
                 Full Stack Developer & Blockchain Enthusiast
@@ -163,44 +360,91 @@ const AboutPage = () => {
                 technology.
               </p>
 
-              <div className="flex gap-4 justify-center md:justify-start">
-                <a
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={animate ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ delay: 1.3, duration: 0.5 }}
+                className="flex gap-4 justify-center md:justify-start"
+              >
+                <motion.a
+                  whileHover={{ scale: 1.2, rotate: 10 }}
+                  transition={{ type: "spring", stiffness: 400 }}
                   href="https://github.com/SorayutChroenrit"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
                 >
                   <Github className="h-5 w-5 text-gray-700" />
-                </a>
-                <a
+                </motion.a>
+                <motion.a
+                  whileHover={{ scale: 1.2, rotate: -10 }}
+                  transition={{ type: "spring", stiffness: 400 }}
                   href="mailto:sorayutwork@gmail.com"
                   className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
                 >
                   <Mail className="h-5 w-5 text-gray-700" />
-                </a>
-              </div>
-            </div>
+                </motion.a>
+              </motion.div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
-        <section className="text-center py-8">
-          <h2 className="text-2xl font-semibold mb-4">Ready to Start?</h2>
-          <p className="text-gray-600 mb-6">
+        {/* CTA Section */}
+        <motion.section
+          initial="hidden"
+          animate={animate ? "visible" : "hidden"}
+          variants={fadeInUp}
+          transition={{ delay: 1.4 }}
+          className="text-center py-8"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={animate ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, delay: 1.5 }}
+            className="text-2xl font-semibold mb-4"
+          >
+            Ready to Start?
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={animate ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.6, delay: 1.6 }}
+            className="text-gray-600 mb-6"
+          >
             Join the transparent fundraising revolution today!
-          </p>
-          <div className="flex justify-center gap-4">
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={animate ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 1.7 }}
+            className="flex justify-center gap-4"
+          >
             <Link to="/campaigns">
-              <Button variant="hero" size="lg">
-                Browse Campaigns
-              </Button>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="hero" size="lg" className="transition-all">
+                  Browse Campaigns
+                </Button>
+              </motion.div>
             </Link>
             <Link to="/create">
-              <Button variant="secondary" size="lg">
-                Create Campaign
-              </Button>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  className="transition-all"
+                >
+                  Create Campaign
+                </Button>
+              </motion.div>
             </Link>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
       </div>
     </div>
   );
