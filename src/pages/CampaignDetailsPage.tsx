@@ -100,8 +100,6 @@ const CampaignDetailPage = () => {
     try {
       await closeCampaign(campaign.id);
       toast.success("Campaign closed successfully!");
-      // Refresh campaign data
-      window.location.reload();
     } catch (error) {
       toast.error("Failed to close campaign");
     }
@@ -110,11 +108,36 @@ const CampaignDetailPage = () => {
   const handleWithdrawFunds = async () => {
     if (!campaign) return;
 
+    if (campaign.isActive) {
+      toast.error("Please close the campaign before withdrawing funds");
+      return;
+    }
+
+    if (Number(campaign.amountRaised) <= 0) {
+      toast.error("No funds available to withdraw");
+      return;
+    }
+
     try {
       await withdrawFunds(campaign.id);
       toast.success("Funds withdrawn successfully!");
-    } catch (error) {
-      toast.error("Failed to withdraw funds");
+      // Refresh campaign data
+      window.location.reload();
+    } catch (error: any) {
+      console.error("Error withdrawing funds:", error);
+
+      // Provide more specific error messages
+      if (error.message.includes("Campaign must be closed")) {
+        toast.error("You must close the campaign before withdrawing funds");
+      } else if (error.message.includes("Only campaign owner")) {
+        toast.error("Only the campaign owner can withdraw funds");
+      } else if (error.message.includes("No funds to withdraw")) {
+        toast.error("No funds available to withdraw");
+      } else {
+        toast.error(
+          `Failed to withdraw funds: ${error.message || "Unknown error"}`
+        );
+      }
     }
   };
 
@@ -260,7 +283,8 @@ const CampaignDetailPage = () => {
                   </motion.div>
                 )}
 
-                {Number(campaign.amountRaised) > 0 && (
+                {/* Only show withdraw button if campaign is closed AND has funds */}
+                {!campaign.isActive && Number(campaign.amountRaised) > 0 && (
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -273,6 +297,18 @@ const CampaignDetailPage = () => {
                     >
                       Withdraw Funds
                     </Button>
+                  </motion.div>
+                )}
+
+                {/* Show helpful message if campaign needs to be closed before withdrawing */}
+                {campaign.isActive && Number(campaign.amountRaised) > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                    className="text-sm text-yellow-600 bg-yellow-50 p-2 rounded"
+                  >
+                    Please close the campaign before withdrawing funds
                   </motion.div>
                 )}
               </motion.div>
