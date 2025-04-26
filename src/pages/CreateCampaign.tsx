@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { useApp } from "../context/AppContext";
 import { motion } from "framer-motion";
 
-const CreateCausePage = () => {
+const CreateCampaignPage = () => {
   const navigate = useNavigate();
   const { createCampaign, loading, connected } = useApp();
   const [name, setName] = useState("");
@@ -57,17 +57,17 @@ const CreateCausePage = () => {
     e.preventDefault();
 
     if (!connected) {
-      toast.error("Please connect your wallet to create a cause");
+      toast.error("Please connect your wallet to create a campaign");
       return;
     }
 
     try {
-      setCreationStatus("Creating cause...");
+      setCreationStatus("Creating campaign...");
       await createCampaign(name, description, goal);
-      toast.success("Cause created successfully!");
+      toast.success("Campaign created successfully!");
       navigate("/campaigns");
     } catch (error) {
-      toast.error("Failed to create cause");
+      toast.error("Failed to create campaign");
       setCreationStatus("");
     }
   };
@@ -88,7 +88,7 @@ const CreateCausePage = () => {
           transition={{ delay: 0.2 }}
           className="text-gray-600"
         >
-          Please connect your wallet to create a cause.
+          Please connect your wallet to create a campaign.
         </motion.p>
       </motion.div>
     );
@@ -102,7 +102,7 @@ const CreateCausePage = () => {
         transition={{ duration: 0.7 }}
         className="text-3xl font-bold mb-8"
       >
-        Create New Cause
+        Create New Campaign
       </motion.h1>
 
       <motion.div
@@ -115,9 +115,9 @@ const CreateCausePage = () => {
           <form onSubmit={handleSubmit}>
             <CardHeader>
               <motion.div variants={fadeIn}>
-                <CardTitle>Cause Details</CardTitle>
+                <CardTitle>Campaign Details</CardTitle>
                 <CardDescription>
-                  Create a new donation cause on the blockchain
+                  Create a new donation campaign on the blockchain
                 </CardDescription>
               </motion.div>
             </CardHeader>
@@ -128,9 +128,9 @@ const CreateCausePage = () => {
                 custom={0}
                 variants={formItemAnimation}
               >
-                <label className="text-sm font-medium">Cause Name</label>
+                <label className="text-sm font-medium">Campaign Name</label>
                 <Input
-                  placeholder="Enter cause name"
+                  placeholder="Enter campaign name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -145,7 +145,7 @@ const CreateCausePage = () => {
               >
                 <label className="text-sm font-medium">Description</label>
                 <Textarea
-                  placeholder="Describe your cause"
+                  placeholder="Describe your campaign"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="min-h-32 transition-all duration-300 focus:ring-2 focus:ring-orange-200"
@@ -200,7 +200,7 @@ const CreateCausePage = () => {
                         Creating...
                       </motion.span>
                     ) : (
-                      "Create Cause"
+                      "Create Campaign"
                     )}
                   </Button>
                 </motion.div>
@@ -230,4 +230,4 @@ const CreateCausePage = () => {
   );
 };
 
-export default CreateCausePage;
+export default CreateCampaignPage;

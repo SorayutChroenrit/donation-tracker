@@ -79,8 +79,8 @@ const AboutPage = () => {
     },
     {
       icon: <Users className="h-6 w-6 text-orange-600 mt-1" />,
-      title: "Cause Management",
-      description: "Create, manage, and track donation causes easily",
+      title: "Campaign Management",
+      description: "Create, manage, and track donation campaigns easily",
     },
   ];
 
@@ -156,7 +156,7 @@ const AboutPage = () => {
           </motion.h2>
           <motion.p variants={fadeIn} className="text-gray-600 mb-6">
             Donatrace is a blockchain-based donation platform that
-            revolutionizes how causes are created, managed, and tracked. We
+            revolutionizes how campaigns are created, managed, and tracked. We
             leverage the power of blockchain technology to ensure complete
             transparency and trust in the donation process.
           </motion.p>
@@ -356,7 +356,8 @@ const AboutPage = () => {
                 solve real-world problems. With a background in web development
                 and a keen interest in blockchain technology, I built Donatrace
                 to bring transparency and trust to the donation space. My goal
-                is to empower both donors and cause creators through technology.
+                is to empower both donors and campaign creators through
+                technology.
               </p>
 
               <motion.div
@@ -424,7 +425,7 @@ const AboutPage = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Button variant="hero" size="lg" className="transition-all">
-                  Browse Causes
+                  Browse Campaigns
                 </Button>
               </motion.div>
             </Link>
@@ -438,7 +439,7 @@ const AboutPage = () => {
                   size="lg"
                   className="transition-all"
                 >
-                  Create Cause
+                  Create Campaign
                 </Button>
               </motion.div>
             </Link>

@@ -32,8 +32,8 @@ const HomePage = () => {
   });
 
   const stats = {
-    totalCauses: campaigns.length,
-    activeCauses: campaigns.filter((c) => c.isActive).length,
+    totalCampaigns: campaigns.length,
+    activeCampaigns: campaigns.filter((c) => c.isActive).length,
     totalDonated: campaigns.reduce(
       (acc, c) => acc + parseFloat(c.amountRaised),
       0
@@ -98,8 +98,8 @@ const HomePage = () => {
           transition={{ duration: 0.7, delay: 0.4 }}
           className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
         >
-          Create and support causes with complete transparency. Every donation
-          is recorded on the blockchain.
+          Create and support campaigns with complete transparency. Every
+          donation is recorded on the blockchain.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -113,7 +113,7 @@ const HomePage = () => {
               size="lg"
               className="w-full sm:w-auto transition-all hover:scale-105"
             >
-              View Causes
+              View Campaigns
             </Button>
           </Link>
           {connected ? (
@@ -123,7 +123,7 @@ const HomePage = () => {
                 size="lg"
                 className="w-full sm:w-auto transition-all hover:scale-105"
               >
-                Create Cause
+                Create Campaign
               </Button>
             </Link>
           ) : (
@@ -143,13 +143,13 @@ const HomePage = () => {
       <div ref={statsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
           {
-            title: "Total Causes",
-            value: stats.totalCauses,
+            title: "Total Campaigns",
+            value: stats.totalCampaigns,
             color: "text-orange-600",
           },
           {
-            title: "Active Causes",
-            value: stats.activeCauses,
+            title: "Active Campaigns",
+            value: stats.activeCampaigns,
             color: "text-green-600",
           },
           {
@@ -216,13 +216,13 @@ const HomePage = () => {
               step: 1,
               title: "Connect Wallet",
               description:
-                "Connect your MetaMask wallet to start creating causes or making donations",
+                "Connect your MetaMask wallet to start creating campaigns or making donations",
             },
             {
               step: 2,
               title: "Create or Donate",
               description:
-                "Create a new cause or support existing ones with ETH donations",
+                "Create a new campaign or support existing ones with ETH donations",
             },
             {
               step: 3,

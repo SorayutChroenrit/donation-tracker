@@ -45,21 +45,21 @@ const HowToUsePage = () => {
     },
     {
       icon: <PlusCircle className="h-5 w-5 text-orange-600" />,
-      title: "Step 2: Create a Cause",
+      title: "Step 2: Create a Campaign",
       content: (
         <>
-          <p>To create a cause:</p>
+          <p>To create a campaign:</p>
           <ul className="list-disc ml-6 mt-2 space-y-1">
             <li>
               Navigate to the{" "}
               <Link to="/create" className="text-orange-600 hover:underline">
-                Create Cause
+                Create Campaign
               </Link>{" "}
               page
             </li>
-            <li>Fill in your cause details</li>
+            <li>Fill in your campaign details</li>
             <li>Set a realistic donation goal in ETH</li>
-            <li>Submit the transaction to create your cause</li>
+            <li>Submit the transaction to create your campaign</li>
           </ul>
         </>
       ),
@@ -69,15 +69,15 @@ const HowToUsePage = () => {
       title: "Step 3: Make a Donation",
       content: (
         <>
-          <p>To donate to a cause:</p>
+          <p>To donate to a campaign:</p>
           <ul className="list-disc ml-6 mt-2 space-y-1">
             <li>
               Browse{" "}
               <Link to="/campaigns" className="text-orange-600 hover:underline">
-                Active Causes
+                Active Campaigns
               </Link>
             </li>
-            <li>Click on a cause to view details</li>
+            <li>Click on a campaign to view details</li>
             <li>Click "Donate" and enter the amount</li>
             <li>Optionally add a message</li>
             <li>Confirm the transaction in MetaMask</li>
@@ -90,7 +90,7 @@ const HowToUsePage = () => {
       title: "Step 4: Track Your Activity",
       content: (
         <>
-          <p>Monitor your causes and donations:</p>
+          <p>Monitor your campaigns and donations:</p>
           <ul className="list-disc ml-6 mt-2 space-y-1">
             <li>
               View your donation history on the{" "}
@@ -103,7 +103,7 @@ const HowToUsePage = () => {
               page
             </li>
             <li>Track donation impact in real-time</li>
-            <li>Withdraw funds from your causes when ready</li>
+            <li>Withdraw funds from your campaigns when ready</li>
           </ul>
         </>
       ),
@@ -219,11 +219,11 @@ const HowToUsePage = () => {
               transition={{ duration: 0.5, delay: 1.0 }}
             >
               <h3 className="font-semibold mb-2">
-                How do cause owners withdraw funds?
+                How do campaign owners withdraw funds?
               </h3>
               <p className="text-gray-600">
-                Cause owners can withdraw funds by visiting their cause page and
-                clicking the "Withdraw Funds" button.
+                Campaign owners can withdraw funds by visiting their campaign
+                page and clicking the "Withdraw Funds" button.
               </p>
             </motion.div>
           </div>
@@ -259,7 +259,7 @@ const HowToUsePage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.4, duration: 0.3 }}
             >
-              Verify cause authenticity before donating
+              Verify campaign authenticity before donating
             </motion.li>
             <motion.li
               initial={{ opacity: 0, x: -10 }}
@@ -305,7 +305,7 @@ const HowToUsePage = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Button size="lg" variant="hero" className="transition-all">
-                  Browse Causes
+                  Browse Campaigns
                 </Button>
               </motion.div>
             </Link>
@@ -315,7 +315,7 @@ const HowToUsePage = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Button size="lg" variant="outline" className="transition-all">
-                  Create Cause
+                  Create Campaign
                 </Button>
               </motion.div>
             </Link>

@@ -29,7 +29,7 @@ import { Donation } from "../types";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
-const CauseDetailPage = () => {
+const CampaignDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const {
     campaigns,
@@ -41,7 +41,7 @@ const CauseDetailPage = () => {
     withdrawFunds,
     getCampaignDonations,
   } = useApp();
-  const [cause, setCause] = useState<any | null>(null);
+  const [campaign, setCampaign] = useState<any | null>(null);
   const [donations, setDonations] = useState<Donation[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [donationAmount, setDonationAmount] = useState("");
@@ -60,18 +60,18 @@ const CauseDetailPage = () => {
 
   useEffect(() => {
     if (id && campaigns.length > 0) {
-      const foundCause = campaigns.find((c) => c.id === parseInt(id));
-      setCause(foundCause);
+      const foundCampaign = campaigns.find((c) => c.id === parseInt(id));
+      setCampaign(foundCampaign);
 
-      if (foundCause) {
-        loadDonations(foundCause.id);
+      if (foundCampaign) {
+        loadDonations(foundCampaign.id);
       }
     }
   }, [id, campaigns]);
 
-  const loadDonations = async (causeId: number) => {
+  const loadDonations = async (campaignId: number) => {
     try {
-      const donationsData = await getCampaignDonations(causeId);
+      const donationsData = await getCampaignDonations(campaignId);
       setDonations(donationsData);
     } catch (error) {
       console.error("Error loading donations:", error);
@@ -80,38 +80,38 @@ const CauseDetailPage = () => {
   };
 
   const handleDonate = async () => {
-    if (!cause) return;
+    if (!campaign) return;
 
     try {
-      await makeDonation(cause.id, donationAmount, donationMessage);
+      await makeDonation(campaign.id, donationAmount, donationMessage);
       setIsDialogOpen(false);
       setDonationAmount("");
       setDonationMessage("");
       toast.success("Donation successful!");
-      loadDonations(cause.id);
+      loadDonations(campaign.id);
     } catch (error) {
       toast.error("Failed to make donation");
     }
   };
 
-  const handleCloseCause = async () => {
-    if (!cause) return;
+  const handleCloseCampaign = async () => {
+    if (!campaign) return;
 
     try {
-      await closeCampaign(cause.id);
-      toast.success("Cause closed successfully!");
-      // Refresh cause data
+      await closeCampaign(campaign.id);
+      toast.success("Campaign closed successfully!");
+      // Refresh campaign data
       window.location.reload();
     } catch (error) {
-      toast.error("Failed to close cause");
+      toast.error("Failed to close campaign");
     }
   };
 
   const handleWithdrawFunds = async () => {
-    if (!cause) return;
+    if (!campaign) return;
 
     try {
-      await withdrawFunds(cause.id);
+      await withdrawFunds(campaign.id);
       toast.success("Funds withdrawn successfully!");
     } catch (error) {
       toast.error("Failed to withdraw funds");
@@ -129,9 +129,9 @@ const CauseDetailPage = () => {
   };
 
   const isOwner =
-    cause && account.toLowerCase() === cause.campaignOwner.toLowerCase();
+    campaign && account.toLowerCase() === campaign.campaignOwner.toLowerCase();
 
-  if (!cause) {
+  if (!campaign) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -145,7 +145,7 @@ const CauseDetailPage = () => {
         }}
         className="text-center py-12"
       >
-        <p className="text-gray-600">Loading cause details...</p>
+        <p className="text-gray-600">Loading campaign details...</p>
       </motion.div>
     );
   }
@@ -161,7 +161,7 @@ const CauseDetailPage = () => {
       >
         <Card className="h-full">
           <CardHeader>
-            <CardTitle>Cause Details</CardTitle>
+            <CardTitle>Campaign Details</CardTitle>
           </CardHeader>
 
           <CardContent className="space-y-4">
@@ -170,9 +170,9 @@ const CauseDetailPage = () => {
               animate={{ opacity: detailsInView ? 1 : 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <h3 className="font-semibold text-lg">{cause.name}</h3>
+              <h3 className="font-semibold text-lg">{campaign.name}</h3>
               <p className="text-sm text-gray-500">
-                Created by {formatAddress(cause.campaignOwner)}
+                Created by {formatAddress(campaign.campaignOwner)}
               </p>
             </motion.div>
 
@@ -184,7 +184,7 @@ const CauseDetailPage = () => {
               transition={{ delay: 0.3, duration: 0.5 }}
             >
               <h4 className="text-sm font-medium text-gray-500 mb-1">Status</h4>
-              {cause.isActive ? (
+              {campaign.isActive ? (
                 <Badge className="bg-green-100 text-green-800">Active</Badge>
               ) : (
                 <Badge
@@ -210,12 +210,12 @@ const CauseDetailPage = () => {
                   animate={{ width: "100%" }}
                   transition={{ delay: 0.6, duration: 0.7 }}
                 >
-                  <Progress value={cause.progress} className="h-2" />
+                  <Progress value={campaign.progress} className="h-2" />
                 </motion.div>
               </div>
               <div className="flex justify-between text-sm">
-                <span>{cause.amountRaised} ETH donated</span>
-                <span className="text-gray-500">Goal: {cause.goal} ETH</span>
+                <span>{campaign.amountRaised} ETH donated</span>
+                <span className="text-gray-500">Goal: {campaign.goal} ETH</span>
               </div>
             </motion.div>
 
@@ -227,7 +227,7 @@ const CauseDetailPage = () => {
               <h4 className="text-sm font-medium text-gray-500 mb-1">
                 Description
               </h4>
-              <p className="text-sm">{cause.description}</p>
+              <p className="text-sm">{campaign.description}</p>
             </motion.div>
 
             {isOwner && (
@@ -244,23 +244,23 @@ const CauseDetailPage = () => {
                   Owner Actions
                 </h4>
 
-                {cause.isActive && (
+                {campaign.isActive && (
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <Button
                       variant="outline"
-                      onClick={handleCloseCause}
+                      onClick={handleCloseCampaign}
                       className="w-full mb-2 transition-all"
                       disabled={loading}
                     >
-                      Close Cause
+                      Close Campaign
                     </Button>
                   </motion.div>
                 )}
 
-                {Number(cause.amountRaised) > 0 && (
+                {Number(campaign.amountRaised) > 0 && (
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -296,7 +296,7 @@ const CauseDetailPage = () => {
             <div className="flex justify-between items-center">
               <CardTitle>Donations</CardTitle>
 
-              {cause.isActive && (
+              {campaign.isActive && (
                 <Dialog
                   open={isDialogOpen}
                   onOpenChange={(open) => {
@@ -324,9 +324,9 @@ const CauseDetailPage = () => {
                       transition={{ duration: 0.3 }}
                     >
                       <DialogHeader>
-                        <DialogTitle>Donate to {cause.name}</DialogTitle>
+                        <DialogTitle>Donate to {campaign.name}</DialogTitle>
                         <DialogDescription>
-                          Support this cause with ETH. Your donation will be
+                          Support this campaign with ETH. Your donation will be
                           recorded on the blockchain.
                         </DialogDescription>
                       </DialogHeader>
@@ -482,4 +482,4 @@ const CauseDetailPage = () => {
   );
 };
 
-export default CauseDetailPage;
+export default CampaignDetailPage;

@@ -1,10 +1,11 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { Button } from "./ui/button";
-import WalletConnection from "./WalletModel";
+
 import { useApp } from "../context/AppContext";
 import { motion, AnimatePresence } from "framer-motion";
+import WalletConnection from "../components/WalletModel";
+import { Button } from "../components/ui/button";
 
 const Layout = () => {
   const { handleWalletConnect, connected } = useApp();
@@ -24,8 +25,8 @@ const Layout = () => {
 
   const navLinks = [
     { path: "/", label: "Home" },
-    { path: "/campaigns", label: "Active Causes" },
-    ...(connected ? [{ path: "/create", label: "Create Cause" }] : []),
+    { path: "/campaigns", label: "Active Campaigns" },
+    ...(connected ? [{ path: "/create", label: "Create Campaign" }] : []),
     ...(connected ? [{ path: "/my-donations", label: "My Donations" }] : []),
     { path: "/how-to-use", label: "How to Use" },
     { path: "/about", label: "About" },
@@ -219,7 +220,7 @@ const Layout = () => {
               whileHover={{ scale: 1.02 }}
               className="text-xs text-yellow-700 bg-yellow-50 px-4 py-2 rounded-md"
             >
-              Always verify the authenticity of causes before donating.
+              Always verify the authenticity of campaigns before donating.
             </motion.div>
           </div>
         </div>
