@@ -124,6 +124,16 @@ Smart Contract ของ Donatrace มีฟังก์ชันหลักด
 Contract Address (Holesky): `0x40374915149b2A7806090D23CE9375ac98db481d`
 Chain ID: `17000`
 
+
+### UX/UI 
+
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](image-4.png)
+![alt text](image-5.png)
+![alt text](image-6.png)
+
 ## 🛠️ การแก้ไขปัญหาที่พบบ่อย
 
 ### ปัญหา: ไม่สามารถเชื่อมต่อ MetaMask
@@ -154,3 +164,4 @@ Chain ID: `17000`
 - GitHub: [@SorayutChroenrit](https://github.com/SorayutChroenrit)
 
 หากมีคำถามหรือข้อเสนอแนะ สามารถติดต่อได้ที่ [sorayutwork@gmail.com](mailto:sorayutwork@gmail.com)
+
