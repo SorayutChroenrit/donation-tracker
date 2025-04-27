@@ -124,15 +124,13 @@ Smart Contract ของ Donatrace มีฟังก์ชันหลักด
 Contract Address (Holesky): `0x40374915149b2A7806090D23CE9375ac98db481d`
 Chain ID: `17000`
 
+### UX/UI
 
-### UX/UI 
+![Home Page](https://res.cloudinary.com/dn0nkvay2/image/upload/v1745740604/Screenshot_2568-04-27_at_12.55.33_j424uc.png)
+![Active Campaign](https://res.cloudinary.com/dn0nkvay2/image/upload/v1745740695/Screenshot_2568-04-27_at_13.23.33_ssmlss.png)
+![Create Campaign](https://res.cloudinary.com/dn0nkvay2/image/upload/v1745740694/Screenshot_2568-04-27_at_13.23.56_dinqw8.png)
+![My Donation](https://res.cloudinary.com/dn0nkvay2/image/upload/v1745740694/Screenshot_2568-04-27_at_13.24.17_zommly.png)
 
-![alt text](image-1.png)
-![alt text](image-2.png)
-![alt text](image-3.png)
-![alt text](image-4.png)
-![alt text](image-5.png)
-![alt text](image-6.png)
 
 ## 🛠️ การแก้ไขปัญหาที่พบบ่อย
 
@@ -164,4 +162,3 @@ Chain ID: `17000`
 - GitHub: [@SorayutChroenrit](https://github.com/SorayutChroenrit)
 
 หากมีคำถามหรือข้อเสนอแนะ สามารถติดต่อได้ที่ [sorayutwork@gmail.com](mailto:sorayutwork@gmail.com)
-
