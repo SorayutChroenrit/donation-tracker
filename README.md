@@ -195,4 +195,4 @@ Smart Contract ของ Donatrace มีฟังก์ชันหลักด
 - **Sorayut Chroenrit** - Full Stack Developer
 - GitHub: [@SorayutChroenrit](https://github.com/SorayutChroenrit)
 
-หากมีคำถามหรือข้อเสนอแนะ สามารถติดต่อได้ที่ [sorayutwork@gmail.com](mailto:sorayutwork@gmail.com)
+หากมีคำถามหรือข้อเสนอแนะ สามารถติดต่อได้ที่ [sorayut.chr@gmail.com](mailto:sorayut.chr@gmail.com)
