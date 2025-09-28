@@ -10,15 +10,33 @@ Donatrace เป็นแพลตฟอร์มบริจาคแบบก�
 - 📊 **ติดตามได้**: ดูประวัติการบริจาคและความคืบหน้าแคมเปญได้แบบเรียลไทม์
 - 💻 **ใช้งานง่าย**: UI/UX ที่เป็นมิตรกับผู้ใช้
 
-## 🛠️ เทคโนโลยีที่ใช้
+## 🛠️ Tech Stack
 
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Blockchain**: Solidity, Ethers.js
-- **UI Components**: shadcn/ui
-- **State Management**: React Context API
-- **Routing**: React Router
-- **Wallet Integration**: MetaMask
-- **Network**: Ethereum (Holesky Testnet)
+### Frontend
+
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+
+### Blockchain
+
+![Ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
+![Solidity](https://img.shields.io/badge/Solidity-363636?style=for-the-badge&logo=solidity&logoColor=white)
+![Ethers.js](https://img.shields.io/badge/Ethers.js-2535A0?style=for-the-badge&logo=ethereum&logoColor=white)
+![MetaMask](https://img.shields.io/badge/MetaMask-F6851B?style=for-the-badge&logo=metamask&logoColor=white)
+
+### UI & Styling
+
+![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
+
+### Development Tools
+
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+
+**Network**: Ethereum Holesky Testnet
 
 ## 🚀 การติดตั้งและรันโปรเจค
 
@@ -121,16 +139,32 @@ Smart Contract ของ Donatrace มีฟังก์ชันหลักด
 - `getCampaignDonationsCount`: นับจำนวนการบริจาคในแคมเปญ
 - `totalDonations`: ดูยอดเงินบริจาครวม
 
-Contract Address (Holesky): `0x40374915149b2A7806090D23CE9375ac98db481d`
-Chain ID: `17000`
+**Contract Address (Holesky)**: `0x40374915149b2A7806090D23CE9375ac98db481d`  
+**Chain ID**: `17000`
 
-### UX/UI
+## 📸 Screenshots
+
+### Home Page
 
 ![Home Page](https://res.cloudinary.com/dn0nkvay2/image/upload/v1745740604/Screenshot_2568-04-27_at_12.55.33_j424uc.png)
+
+### Active Campaigns
+
 ![Active Campaign](https://res.cloudinary.com/dn0nkvay2/image/upload/v1745740695/Screenshot_2568-04-27_at_13.23.33_ssmlss.png)
+
+### Create Campaign
+
 ![Create Campaign](https://res.cloudinary.com/dn0nkvay2/image/upload/v1745740694/Screenshot_2568-04-27_at_13.23.56_dinqw8.png)
+
+### My Donations
+
 ![My Donation](https://res.cloudinary.com/dn0nkvay2/image/upload/v1745740694/Screenshot_2568-04-27_at_13.24.17_zommly.png)
 
+### How to Use
+
+![How to use](https://res.cloudinary.com/dn0nkvay2/image/upload/v1745740674/Screenshot_2568-04-27_at_13.24.35_pazbib.png)
+
+![How to use](https://res.cloudinary.com/dn0nkvay2/image/upload/v1745740957/Screenshot_2568-04-27_at_15.02.20_yhnd4h.png)
 
 ## 🛠️ การแก้ไขปัญหาที่พบบ่อย
 
